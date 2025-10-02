@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>CICLO HIDROLÓGICO Y SISTEMAS DE RIEGO</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
+      color: #333;
+      text-align: center;
+      padding: 30px;
+      min-height: 100vh;
+    }
+    h1 {
+      color: #006699;
+      margin-bottom: 20px;
+      font-size: 2.2rem;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    .description {
+      color: #5d6d7e;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+    }
+    
+    /* Estilos para los botones */
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin: 25px 0;
+    }
+    
+    .option-button {
+      background-color: #a8d8ff;
+      color: #2c3e50;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0, 100, 200, 0.15);
+      width: 300px;
+      max-width: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .option-button:hover {
+      background-color: #8bc8ff;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 100, 200, 0.2);
+    }
+    
+    .option-button:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 4px rgba(0, 100, 200, 0.2);
+    }
+    
+    .option-button i {
+      font-size: 1.2rem;
+    }
+    
+    /* Estilos para el selector */
+    select {
+      margin: 15px 0;
+      padding: 12px 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #a8d8ff;
+      background-color: white;
+      width: 300px;
+      max-width: 90%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    select:focus {
+      border-color: #006699;
+      box-shadow: 0 0 0 3px rgba(0, 102, 153, 0.2);
+      outline: none;
+    }
+    
+    /* NUEVOS ESTILOS MEJORADOS para la caja de información */
+    .info-box {
+      margin-top: 30px;
+      padding: 0;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      text-align: left;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      background: white;
+      overflow: hidden;
+      transform: scale(0.95);
+      opacity: 0;
+      transition: all 0.5s ease;
+      display: none;
+    }
+    
+    .info-box.active {
+      transform: scale(1);
+      opacity: 1;
+      display: block;
+      animation: slideInUp 0.6s ease;
+    }
+    
+    @keyframes slideInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .info-header {
+      padding: 25px;
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .info-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(0,0,0,0.1) 100%);
+    }
+    
+    .info-titulo {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 0;
+      position: relative;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .info-content {
+      padding: 30px;
+    }
+    
+    .info-text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 25px;
+      color: #444;
+    }
+    
+    .info-image-container {
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    
+    .info-image-container:hover {
+      transform: scale(1.02);
+    }
+    
+    .info-image {
+      width: 100%;
+      max-height: 350px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .info-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255,255,255,0.9);
+      color: #006699;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    
+    .info-footer {
+      padding: 20px;
+      text-align: center;
+      background: #f8f9fa;
+      border-top: 1px solid #e9ecef;
+      font-style: italic;
+      color: #6c757d;
+    }
+    
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .info-text {
+      margin-top: 20px;
+      color: #7f8c8d;
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+    
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .option-button, select {
+        width: 100%;
+        max-width: 100%;
+      }
+      
+      .info-titulo {
+        font-size: 24px;
+      }
+      
+      .info-content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1><b>SISTEMA HÍDRICO Y DE RIEGO</b></h1>
+  <p class="description">Selecciona la sección que deseas consultar:</p>
+
+  <div class="button-container">
+    <select id="menu">
+      <option value="">-- ELIJE UNA OPCION --</option>
+      <option value="presa">1. Presa de almacenamiento</option>
+      <option value="vaso">2. Vaso de la presa</option>
+      <option value="cuenca">3. Cuenca</option>
+      <option value="canalP">4. Canal principal</option>
+      <option value="represas">5. Represa</option>
+      <option value="canalesS">6. Canales secundarios</option>
+      <option value="riegoRodado">7. Riego rodado</option>
+      <option value="dren">8. Dren</option>
+      <option value="olla">9. Olla de agua</option>
+      <option value="pozo">10. Pozo</option>
+      <option value="acui">11. Acuífero subterráneo</option>
+      <option value="goteo">12. Sistema de riego por goteo</option>
+      <option value="solar">13. Sistema de bombeo solar</option>
+    </select>
+
+    <button class="option-button" onclick="mostrarInfo()">
+      ℹ️ Ver información
+    </button>
+  </div>
+
+  <!-- CONTENEDOR MEJORADO para la información -->
+  <div id="info" class="info-box"></div>
+  
+  <p class="info-text">Favor selecciona una opción válida.</p>
+
+  <script>
+    function mostrarInfo() {
+      const seccion = document.getElementById("menu").value;
+      const info = {
+        presa: {
+          titulo: "Presa de almacenamiento",
+          texto: "La presa de almacenamiento es una estructura hidráulica con la finalidad de almacenar agua, controlar inundaciones, generar energía hidroeléctrica y abastecer sistemas de riego. Su importancia radica en regular los flujos de agua durante todo el año. La presa consta de una cortina y un vertedor de demasías.",
+          img:"https://www.ecured.cu/images/a/a6/Embalsee.jpg",
+          color: "linear-gradient(135deg, #2980b9 0%, #3498db 100%)",
+          badge: "Infraestructura"
+        },
+        vaso: {
+          titulo: "Vaso de la Presa",
+          texto: "El vaso de la presa es el espacio donde se acumula el agua retenida. Su capacidad depende de la topografía del terreno y determina la cantidad de agua disponible para riego.",
+          img: "https://www.meganoticias.mx/uploads/noticias/aumenta-nivel-de-la-presa-mocuzarit-supera-el-16-de-su-capacidad-651021.jpg",
+          color: "linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)",
+          badge: "Almacenamiento"
+        },
+        cuenca: {
+          titulo: "Cuenca",
+          texto: "Una cuenca hidrográfica es el área que capta y conduce el agua de lluvia hacia una corriente principal. Representa una unidad esencial para la gestión y aprovechamiento del recurso hídrico.",
+          img: "https://www.gob.mx/cms/uploads/image/file/516104/que-es-una-cuenca2.jpg",
+          color: "linear-gradient(135deg, #e67e22 0%, #f39c12 100%)",
+          badge: "Geografía"
+        },
+        canalP: {
+          titulo: "Canal Principal",
+          texto: "Los canales principales transportan agua desde la presa hacia diferentes zonas agrícolas. Su diseño permite un flujo constante y controlado.",
+          img: "https://www.debate.com.mx/__export/1690586970912/sites/debate/img/2023/07/28/amlo_pone_en_operacixn_el_sistema_de_riego_de_la_presa_picachos_en_sinaloa_x1x.jpeg_172596871.jpeg",
+          color: "linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%)",
+          badge: "Distribución"
+        },
+        represas: {
+          titulo: "Represas",
+          texto: "Las represas son estructuras que complementan a la presa principal, ayudando a distribuir el agua localmente.",
+          img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Floodgate_drum.JPG/1024px-Floodgate_drum.JPG",
+          color: "linear-gradient(135deg, #16a085 0%, #1abc9c 100%)",
+          badge: "Control"
+        },
+        canalesS: {
+          titulo: "Canales Secundarios",
+          texto: "Distribuyen el agua desde los canales principales hasta parcelas individuales, optimizando el reparto en las zonas agrícolas.",
+          img: "https://www.indap.gob.cl/sites/default/files/mejoras-en-canales-de-valpara%C3%ADso.jpg",
+          color: "linear-gradient(135deg, #c0392b 0%, #e74c3c 100%)",
+          badge: "Distribución"
+        },
+        riegoRodado: {
+          titulo: "Riego Rodado",
+          texto: "El riego rodado o por gravedad, es aquel donde el agua se aplica sobre la superficie del suelo y se distribuye en la parcela aprovechando la fuerza de gravedad o pendiente. Es el método de riego más tradicional, pero menos eficiente.",
+          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttFEa4_ePdMxOj-NATi67Esg5hV1QRlOzm6b3vINFfiqmAt4Be6-3-yuRFQBBZjuDguQ&usqp=CAU",
+          color: "linear-gradient(135deg, #d35400 0%, #e67e22 100%)",
+          badge: "Método"
+        },
+        dren: {
+          titulo: "Dren",
+          texto: "Los drenes son sistemas de evacuación que evitan encharcamientos, regulan niveles freáticos y mejoran la productividad agrícola. Pueden ser superficiales o subterráneos.",
+          img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9FdQHFIqctU1Li8QDDj6M_RxbkNC8ZZxdRoT4Ewa0foGElcUgmmABg7IR3F0rKDAzM7Y&usqp=CAU",
+          color: "linear-gradient(135deg, #7f8c8d 0%, #95a5a6 100%)",
+          badge: "Drenaje"
+        },
+        olla: {
+          titulo: "Olla de Agua",
+          texto: "Es una infraestructura hidráulica diseñada para almacenar agua de lluvia o escurrimiento, son clave para gestionar el agua de manera sostenible.",
+          img: "https://regionaldelsur.com/wp-content/uploads/2021/03/FOTO-DE-NOTA-3A-MARZO-16.jpg",
+          color: "linear-gradient(135deg, #f39c12 0%, #f1c40f 100%)",
+          badge: "Almacenamiento"
+        },
+        pozo: {
+          titulo: "Pozo agrícola",
+          texto: "Un pozo es una perforación o excavación vertical en la tierra con el fin de acceder a agua subterránea de un acuífero para su uso en la agricultura. Generalmente son mecanizados con bombas.",
+          img: "https://dojiw2m9tvv09.cloudfront.net/29449/2/M_pozoa.jpeg?148&time=1759209850",
+          color: "linear-gradient(135deg, #34495e 0%, #2c3e50 100%)",
+          badge: "Extracción"
+        },
+        acui: {
+          titulo: "Acuífero",
+          texto: "Son grandes reservorios naturales de agua subterránea contenidos en formaciones geológicas permeables. El agua dentro de un acuífero circula por poros y fisuras y es una reserva vital de agua dulce",
+          img: "https://institutodelagua.es/wp-content/uploads/2024/03/conagua-limites-de-acuiferos-todo-lo-que-necesitas-saber-sobre-esta-fundamental-reserva-de-agua-1536x691.png",
+          color: "linear-gradient(135deg, #2980b9 0%, #3498db 100%)",
+          badge: "Subterráneo"
+        },
+        goteo: {
+          titulo: "Sistema de Riego por Goteo",
+          texto: "El riego por goteo es un método de alta eficiencia que suministra agua y nutrientes directamente a la zona radicular de las plantas en pequeñas cantidades y de manera controlada, gota a gota, a través de una red de tuberías con goteros.",
+          img: "https://www.reytlaloc.com.mx/wp-content/uploads/2022/02/006-RIEGO-POR-GOTEO.png",
+          color: "linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)",
+          badge: "Tecnología"
+        },
+        solar: {
+          titulo: "Sistema de Bombeo Solar",
+          texto: "La energía solar puede usarse para bombear agua en sistemas de riego, reduciendo costos y favoreciendo la sostenibilidad.",
+          img: "https://portalsolar.com.ar/wp-content/uploads/2023/03/Bombeo-Solar-2-1.jpg",
+          color: "linear-gradient(135deg, #e67e22 0%, #f39c12 100%)",
+          badge: "Energía Renovable"
+        }
+      };
+
+      const seleccion = info[seccion];
+      const infoDiv = document.getElementById("info");
+      
+      if (seleccion) {
+        infoDiv.innerHTML = `
+          <div class="info-header" style="background: ${seleccion.color}">
+            <h2 class="info-titulo pulse-animation">${seleccion.titulo}</h2>
+          </div>
+          <div class="info-content">
+            <p class="info-text">${seleccion.texto}</p>
+            <div class="info-image-container">
+              <img src="${seleccion.img}" alt="${seleccion.titulo}" class="info-image">
+              <div class="info-badge">${seleccion.badge}</div>
+            </div>
+          </div>
+          <div class="info-footer">
+            Sistema Hídrico y de Riego - Información técnica especializada
+          </div>
+        `;
+        infoDiv.classList.add('active');
+      } else {
+        infoDiv.innerHTML = `
+          <div class="info-header" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%)">
+            <h2 class="info-titulo">Opción no válida</h2>
+          </div>
+          <div class="info-content">
+            <p class="info-text" style="text-align: center; color: #e74c3c; font-size: 1.2rem;">
+              ⚠️ Por favor selecciona una opción válida del menú desplegable.
+            </p>
+          </div>
+        `;
+        infoDiv.classList.add('active');
+      }
+      
+      // Efecto visual al hacer clic
+      const button = document.querySelector('.option-button');
+      button.style.transform = 'scale(0.98)';
+      setTimeout(() => {
+        button.style.transform = '';
+      }, 150);
+    }
+  </script>
+</body>
+</html>
